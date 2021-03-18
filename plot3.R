@@ -1,0 +1,16 @@
+library(utils)
+data <- read.table("household_power_consumption.txt", header = TRUE, sep = ";")
+subdata <- subset(data, data$Date == "1/2/2007" | data$Date == "2/2/2007")
+
+DayAndTime <- strptime(paste(subdata$Date, subdata$Time, sep = " "), "%d/%m/%Y %H:%M:%S") 
+SM1 <- as.numeric(subdata$Sub_metering_1)
+SM2 <- as.numeric(subdata$Sub_metering_2)
+SM3 <- as.numeric(subdata$Sub_metering_3)
+
+png("plot3.png")
+plot(DayAndTime, SM1, type = "n", xlab = "", ylab = "Energy Sub metering")
+lines(DayAndTime, SM1, type = "l")
+lines(DayAndTime, SM2, type = "l", col = "red")
+lines(DayAndTime, SM3, type = "l", col = "blue")
+legend("topright", legend = c("Sub_Metering_1", "Sub_Metering_2", "Sub_Metering_3"), lty = 1, col = c("black", "red", "blue"))
+dev.off()
